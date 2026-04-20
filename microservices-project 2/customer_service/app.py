@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 customers = {
-    1: {"name": "Abhinav", "orders": [101, 102]},
+    1: {"name": "Harsh", "orders": [101, 102]},
     2: {"name": "Rahul", "orders": [103]}
 }
 
@@ -20,5 +20,8 @@ def get_customer_orders(customer_id):
         "orders": customer["orders"]
     })
 
-if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
