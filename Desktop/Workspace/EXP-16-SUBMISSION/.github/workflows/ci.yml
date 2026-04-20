@@ -19,17 +19,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd EXP-16-SUBMISSION/Testing/Backend
+        cd Testing/Backend
         pip install -r requirements.txt
 
     - name: Run backend tests
       run: |
-        cd EXP-16-SUBMISSION/Testing/Backend
+        cd Testing/Backend
         pytest
 
     - name: Build Docker image
       run: |
-        cd EXP-16-SUBMISSION/Testing/Backend
+        cd Testing/Backend
         docker build -t backend-test-app .
 
     - name: Show Docker images
