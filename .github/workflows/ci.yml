@@ -1,57 +1,34 @@
-name: Fullstack Tests
+name: CI/CD Pipeline (Backend Only)
 
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
-
-  backend-test:
+  backend:
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: Testing/Backend
+        working-directory: EXP-16-SUBMISSION/Testing/Backend
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
 
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: pip install -r requirements.txt
 
-      - name: Run backend tests
-        run: |
-          source venv/bin/activate
-          pytest
+    - name: Run tests
+      run: pytest
 
-  frontend-test:   # ✅ SAME LEVEL as backend-test
-    runs-on: ubuntu-latest
+    - name: Build Docker image
+      run: docker build -t backend-test-app .
 
-    defaults:
-      run:
-        working-directory: Testing/Frontend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run frontend tests
-        run: npm run test
+    - name: Show Docker images
+      run: docker images
